@@ -137,27 +137,27 @@ There is no need to upgrade just yet.
 
 ###1. WooCommerce payment gateway setting page
 ###
-[missing image]
+![Screenshot 1](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-1.png)
 
 
 ###2. Voguepay Wooocommerce Payment Gateway Setting Page
 ###
-[missing image]
+![Screenshot 2](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-2.png)
 
 
 ###3. Voguepay Wooocommerce Payment Gateway method on the checkout page
 ###
-[missing image]
+![Screenshot 3](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-3.png)
 
 
 ###4. Successful Payment Transaction Message
 ###
-[missing image]
+![Screenshot 4](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-4.png)
 
 
 ###5. Failed Payment Transaction Declined Message
 ###
-[missing image]
+![Screenshot 5](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-5.png)
 
 
 
