@@ -4,7 +4,7 @@ Donate link: http://bosun.me/donate
 Tags: woocommerce, payment gateway, payment gateways, voguepay, interswitch, verve cards, tubiz plugins, verve, nigeria
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,13 +47,13 @@ This plugin is meant to be used by merchants in Nigeria.
 
 = Suggestions / Feature Request =
 
-If you have suggestions or a new features request, feel free to get in touch with me via the contact form on my website [here](http://bosun.me/get-in-touch/)
+If you have suggestions or a new feature request, feel free to get in touch with me via the contact form on my website [here](http://bosun.me/get-in-touch/)
 
 You can also follow me on Twitter! **[@tubiz](http://twitter.com/tubiz)**
 
 
 = Contribute = 
-To contribute to this plugin feel free to fork it on Github [Voguepay Woocommerce Payment Gateway on Github](https://github.com/tubiz/voguepay-woocommerce-payment-gateway)
+To contribute to this plugin feel free to fork it on GitHub [Voguepay Woocommerce Payment Gateway on GitHub](https://github.com/tubiz/voguepay-woocommerce-payment-gateway)
 
 
 == Installation ==
@@ -108,6 +108,14 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 
 == Changelog ==
+
+= 1.1.0 =
+*	New: added support for Woocommerce 2.1
+* 	New: only load the functions (tbz_add_my_currency & tbz_add_my_currency_symbol) whcih add the Naira currency and symbol on WordPress sites running Woocommerce version that are less that 2.1, as it has been added to Woocommerce from version 2.1.
+* 	New: added verification checks to ensure the right amount is paid by the customer
+*	Fix: fixed Naira currency not displaying properly.
+*	Fix: check if tbz_add_my_currency & tbz_add_my_currency_symbol functions exist before declaring it.
+
 
 = 1.0.0 =
 *   First release
