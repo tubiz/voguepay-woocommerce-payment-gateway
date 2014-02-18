@@ -199,16 +199,17 @@ function woocommerce_voguepay_init() {
 				$json = wp_remote_get( 'https://voguepay.com/?v_transaction_id='.$transaction_id.'&type=json');
 				$transaction = json_decode($json['body'], true);
 
+				$transaction_id = $transaction['transaction_id'];
+				$order_id 		= $transaction['merchant_ref'];
+				$order_id 		= (int) $order_id;
+
+		            	$order 			= new WC_Order($order_id);
+		            	$order_total	= $order->get_total();
+
+				$amount_paid 	= $transaction['total'];
+
 				if($transaction['status'] == 'Approved')
 				{					
-					$transaction_id = $transaction['transaction_id'];
-					$order_id 		= $transaction['merchant_ref'];
-					$order_id 		= (int) $order_id;
-
-		            $order 			= new WC_Order($order_id);
-		            $order_total	= $order->get_total();
-
-					$amount_paid 	= $transaction['total'];
 
 					// check if the amount paid is equal to the order amount.
 					if($order_total != $amount_paid)
