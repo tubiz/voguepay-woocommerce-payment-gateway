@@ -109,6 +109,11 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Changelog ==
 
+= 1.2.0 =
+*	Fix: Fixed the settings page link not working in Woocommerce 2.1
+*	Fix: Failed transaction displaying an error message
+
+
 = 1.1.0 =
 *	New: added support for Woocommerce 2.1
 * 	New: only load the functions (tbz_add_my_currency & tbz_add_my_currency_symbol) whcih add the Naira currency and symbol on WordPress sites running Woocommerce version that are less that 2.1, as it has been added to Woocommerce from version 2.1.
