@@ -117,7 +117,7 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Changelog ##
 
-### 1.1.0 ###
+### 1.2.0 ###
 *	Fix: Fixed the settings page link not working in Woocommerce 2.1
 *	Fix: Failed transaction displaying an error message
 
@@ -189,3 +189,7 @@ Premium Addons for Voguepay Woocommerce Payment Gateway will be added here.
 *	You can also search for transaction via it's transaction id.
 * 	Plus much more.
 
+## Contributors ##
+Special mentions to the following developers who submitted pull requests for the plugin
+
+1. [deus-ex on GitHub](http://github.com/deus-ex) you can also follow him on twitter [@deusex0](http://twitter.com/deusex0)
