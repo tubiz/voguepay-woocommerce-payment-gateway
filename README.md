@@ -1,20 +1,20 @@
 # Voguepay Woocommerce Payment Gateway #
 **Contributors:** tubiz
-  
+
 **Donate link:** http://bosun.me/donate
-  
+
 **Tags:** woocommerce, payment gateway, payment gateways, voguepay, interswitch, verve cards, tubiz plugins, verve, nigeria
-  
+
 **Requires at least:** 3.5
-  
-**Tested up to:** 3.8.1
-  
-**Stable tag:** 1.2.0
-  
+
+**Tested up to:** 3.9
+
+**Stable tag:** 1.3.0
+
 **License:** GPLv2 or later
-  
+
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
-  
+
 
 Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocommerce store via Visa Cards, Mastercards, Verve Cards and eTranzact.
 
@@ -35,7 +35,7 @@ To signup for Voguepay visit their website by clicking [here](https://voguepay.c
 
 Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocommerce store using Nigeria issued Visa Card, Mastercard and Verve Cards
 
-With this Voguepay Woocommerce Payment Gateway plugin, you will be able to accept the following payment methods in your shop: 
+With this Voguepay Woocommerce Payment Gateway plugin, you will be able to accept the following payment methods in your shop:
 
 * __MasterCards__
 * __Visa Card__
@@ -75,7 +75,7 @@ To contribute to this plugin feel free to fork it on GitHub [Voguepay Woocommerc
 
 ### Note: ###
 If this is the first time you've installed a WordPress Plugin, you may need to enter the FTP login credential information. If you've installed a Plugin before, it will still have the login information. This information is available through your web server host.
-          
+
 * Click "Proceed" to continue the installation. The resulting installation screen will list the installation as successful or note any problems during the install.
 * If successful, click "Activate Plugin" to activate it, or "Return to Plugin Installer" for further actions.
 
@@ -96,8 +96,8 @@ To configure the plugin, go to __WooCommerce > Settings__ from the left hand me
 __*You can select the radio button next to the Voguepay Payment Gateway from the list of payment gateways available to make it the default gateway.*__
 
 * __Enable/Disable__ - check the box to enable Voguepay Payment Gateway.
-* __Title__ - allows you to determine what your customers will see this payment option as on the checkout page.  
-* __Description__ - controls the message that appears under the payment fields on the checkout page. Here you can list the types of cards you accept. 
+* __Title__ - allows you to determine what your customers will see this payment option as on the checkout page.
+* __Description__ - controls the message that appears under the payment fields on the checkout page. Here you can list the types of cards you accept.
 * __VoguePay Merchant ID__  - enter your Voguepay Merchant ID, this is gotten from your account page on [Voguepay website](https://voguepay.com).
 * Click on __Save Changes__ for the changes you made to be effected.
 
@@ -116,6 +116,11 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 
 ## Changelog ##
+
+### 1.3.0 ###
+*	New: Better support for digital product stores
+*	New: Set correct order status for orders that contains downloadable products
+*	Fix: Changed deprecated Woocommerce functions
 
 ### 1.2.0 ###
 *	Fix: Fixed the settings page link not working in Woocommerce 2.1
@@ -184,7 +189,7 @@ Premium Addons for Voguepay Woocommerce Payment Gateway will be added here.
 
 1.	Voguepay Woocommerce Payment Transaction Log
 
-*	This plugin logs each payment transaction that is made via the plugin in your WordPress website. 
+*	This plugin logs each payment transaction that is made via the plugin in your WordPress website.
 *	It also allows you to view the full details of the each transaction without visiting Voguepay website.
 *	You can also search for transaction via it's transaction id.
 * 	Plus much more.
