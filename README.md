@@ -7,9 +7,9 @@
 
 **Requires at least:** 3.5
 
-**Tested up to:** 3.9
+**Tested up to:** 3.9.1
 
-**Stable tag:** 1.3.0
+**Stable tag:** 2.0.0
 
 **License:** GPLv2 or later
 
@@ -22,6 +22,9 @@ Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocom
 
 
 ## Description ##
+
+> Before you start accepting payment on your site, login to your [Voguepay Account](https://voguepay.com/) go to **Account Preferences** then **API Settings**, then set **Enable notification API** and **Send Transaction ID to Success and Failure Return URL** to **Yes**. Then click on **Save Changes** for the changes to be effected.
+**It is very important that you do this before you start accepting payment on your site.**
 
 This is a Voguepay payment gateway for Woocommerce.
 
@@ -51,6 +54,20 @@ This plugin is meant to be used by merchants in Nigeria.
 *   __Accept payment__ via Visa Cards, Mastercards, Verve Cards and eTranzact.
 * 	__Seamless integration__ into the WooCommerce checkout page.
 * 	__Add Naira__ currency symbol. To select it go to go to __WooCommerce > Settings__ from the left hand menu, then click __General__ from the top tab. From __Currency__ select Naira, then click on __Save Changes__ for your changes to be effected.
+
+### Premium Addons ###
+
+**Voguepay WooCommerce Payment Gateway Transaction Log**
+
+[Voguepay WooCommerce Payment Gateway Transaction Log](https://tunspress.com/plugins/voguepay-woocommerce-payment-gateway-transaction-log/) plugin log and save the full details of every payment notification that happens on your site when using the Voguepay Woocommerce Payment Gateway Plugin.
+
+*Some Features Include*
+
+*	This plugin logs each payment transaction that is made via the Voguepay Woocommerce Payment Gateway plugin in your WordPress website.
+*	It also allows you to view the full details of the each transaction without visiting Voguepay website.
+*	You can also search for transaction via it's transaction id.
+* 	Plus much more.
+To get the plugin click [here](https://tunspress.com/plugins/voguepay-woocommerce-payment-gateway-transaction-log/)
 
 
 ### Suggestions / Feature Request ###
@@ -117,6 +134,10 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Changelog ##
 
+### 2.0.0 ###
+* 	New: Check if NGN is set as store currency. As Voguepay only process transactions in Naira
+*	Fix: Fine tuned the IPN (Instant Payment Notification). Immediately a payment transaction occurs a notification is sent by Voguepay to your site. This allows an order payment status to be updated realtime as soon as a payment transaction occurs and before a user is redirected back to the site.
+
 ### 1.3.0 ###
 *	New: Better support for digital product stores
 *	New: Set correct order status for orders that contains downloadable products
@@ -142,7 +163,10 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Upgrade Notice ##
 
-There is no need to upgrade just yet.
+### 2.0.0 ###
+* This release fine tuned the IPN (Instant Payment Notification).
+
+
 
 
 
@@ -177,22 +201,6 @@ There is no need to upgrade just yet.
 
 
 
-
-
-
-## Other Notes ##
-
-### Addons ###
-Premium Addons for Voguepay Woocommerce Payment Gateway will be added here.
-
-**Under Development**
-
-1.	Voguepay Woocommerce Payment Transaction Log
-
-*	This plugin logs each payment transaction that is made via the plugin in your WordPress website.
-*	It also allows you to view the full details of the each transaction without visiting Voguepay website.
-*	You can also search for transaction via it's transaction id.
-* 	Plus much more.
 
 ## Contributors ##
 Special mentions to the following developers who submitted pull requests for the plugin

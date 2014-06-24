@@ -3,7 +3,7 @@
 	Plugin Name: Voguepay WooCommerce Payment Gateway
 	Plugin URI: http://bosun.me/voguepay-woocommerce-payment-gateway
 	Description: Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocommerce store via Visa Cards, Mastercards, Verve Cards and eTranzact.
-	Version: 1.3.0
+	Version: 2.0.0
 	Author: Tunbosun Ayinla
 	Author URI: http://bosun.me/
 	License:           GPL-2.0+
@@ -31,7 +31,7 @@ function woocommerce_voguepay_init() {
 			$this->id 					= 'tbz_voguepay_gateway';
     		$this->icon 				= apply_filters('woocommerce_vogueway_icon', plugins_url( 'assets/pay-via-voguepay.png' , __FILE__ ) );
 			$this->has_fields 			= false;
-        	$this->liveurl 				= 'https://voguepay.com/?p=linkToken';
+        	$this->liveurl 				= 'https://voguepay.com/pay/';
 			$this->notify_url        	= WC()->api_request_url( 'WC_Tbz_Voguepay_Gateway' );
         	$this->method_title     	= 'VoguePay Payment Gateway';
         	$this->method_description  	= 'VoguePay Payment Gateway allows you to receive Mastercard, Verve Card and Visa Card Payments On your Woocommerce Powered Site.';
@@ -55,6 +55,21 @@ function woocommerce_voguepay_init() {
 
 			// Payment listener/API hook
 			add_action( 'woocommerce_api_wc_tbz_voguepay_gateway', array( $this, 'check_voguepay_response' ) );
+
+			// Check if the gateway can be used
+			if ( ! $this->is_valid_for_use() ) {
+				$this->enabled = false;
+			}
+		}
+
+		public function is_valid_for_use(){
+
+			if( ! in_array( get_woocommerce_currency(), array('NGN') ) ){
+				$this->msg = 'Voguepay doesn\'t support your store currency, set it to Nigerian Naira &#8358; <a href="' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=wc_settings&tab=general">here</a>';
+				return false;
+			}
+
+			return true;
 		}
 
         /**
@@ -63,9 +78,18 @@ function woocommerce_voguepay_init() {
         public function admin_options(){
             echo '<h3>VoguePay Payment Gateway</h3>';
             echo '<p>VoguePay Payment Gateway allows you to accept payment through various channels such as Interswitch, Mastercard, Verve cards, eTranzact and Visa cards.</p>';
-            echo '<table class="form-table">';
-            $this->generate_settings_html();
-            echo '</table>';
+
+
+			if ( $this->is_valid_for_use() ){
+
+	            echo '<table class="form-table">';
+	            $this->generate_settings_html();
+	            echo '</table>';
+            }
+			else{	 ?>
+			<div class="inline error"><p><strong>Voguepay Payment Gateway Disabled</strong>: <?php echo $this->msg ?></p></div>
+
+			<?php }
         }
 
 
@@ -105,8 +129,6 @@ function woocommerce_voguepay_init() {
 			);
 		}
 
-
-
 		/**
 		 * Get Voguepay Args for passing to Voguepay
 		**/
@@ -117,8 +139,12 @@ function woocommerce_voguepay_init() {
 
 			$order_total	= $order->get_total();
 			$merchantID 	= $this->voguePayMerchantId;
-			$memo        	= "Payment for Order ID: $order_id";
+			$memo        	= "Payment for Order ID: $order_id on ". get_bloginfo('name');
             $notify_url  	= add_query_arg( 'wc-api', 'WC_Tbz_Voguepay_Gateway', home_url( '/' ) );
+
+			$success_url  	= esc_url( $this->get_return_url( $order ) );
+
+			$fail_url	  	= esc_url( $this->get_return_url( $order ) );
 
 			// voguepay Args
 			$voguepay_args = array(
@@ -127,14 +153,13 @@ function woocommerce_voguepay_init() {
 				'total' 				=> $order_total,
 				'merchant_ref'			=> $order_id,
 				'notify_url'			=> $notify_url,
-				'success_url'			=> $notify_url,
-				'fail_url'				=> $notify_url
+				'success_url'			=> $success_url,
+				'fail_url'				=> $fail_url
 			);
 
 			$voguepay_args = apply_filters( 'woocommerce_voguepay_args', $voguepay_args );
 			return $voguepay_args;
 		}
-
 
 	    /**
 		 * Generate the VoguePay Payment button link
@@ -144,7 +169,7 @@ function woocommerce_voguepay_init() {
 
 			$order = new WC_Order( $order_id );
 
-			$voguepay_adr = $this->liveurl . '?';
+			$voguepay_adr = $this->liveurl;
 
 			$voguepay_args = $this->get_voguepay_args( $order );
 
@@ -156,11 +181,11 @@ function woocommerce_voguepay_init() {
 
 			return '<form action="'.esc_url( $voguepay_adr ).'" method="post" id="voguepay_payment_form" target="_top">
 					' . implode('', $voguepay_args_array) . '
-					<input type="submit" class="button-alt" id="submit_voguepay_payment_form" value="'.__('Make Payment', 'woocommerce').'" /> <a class="button cancel" href="'.esc_url( $order->get_cancel_order_url() ).'">'.__('Cancel order &amp; restore cart', 'woocommerce').'</a>
+					<input type="submit" class="button-alt" id="submit_voguepay_payment_form" value="'.__('Make Payment', 'woocommerce').'" />
+					<a class="button cancel" href="'.esc_url( $order->get_cancel_order_url() ).'">'.__('Cancel order &amp; restore cart', 'woocommerce').'</a>
 				</form>';
 
 		}
-
 
 	    /**
 	     * Process the payment and return the result
@@ -173,7 +198,6 @@ function woocommerce_voguepay_init() {
 				'redirect'	=> $order->get_checkout_payment_url( true )
 	        );
 		}
-
 
 	    /**
 	     * Output for the order received page.
@@ -195,7 +219,7 @@ function woocommerce_voguepay_init() {
 				$transaction_id = $_POST['transaction_id'];
 				$json = wp_remote_get( 'https://voguepay.com/?v_transaction_id='.$transaction_id.'&type=json');
 
-				$transaction = json_decode($json['body'], true);
+				$transaction 	= json_decode($json['body'], true);
 				$transaction_id = $transaction['transaction_id'];
 				$order_id 		= $transaction['merchant_ref'];
 				$order_id 		= (int) $order_id;
@@ -203,7 +227,12 @@ function woocommerce_voguepay_init() {
 		        $order 			= new WC_Order($order_id);
 		        $order_total	= $order->get_total();
 
+				update_post_meta( $order_id, '_tbz_voguepay_transaction_id', wc_clean( $_POST['transaction_id'] ) );
+
 				$amount_paid 	= $transaction['total'];
+
+	            //after payment hook
+                do_action('tbz_wc_voguepay_after_payment', $transaction);
 
 				if($transaction['status'] == 'Approved')
 				{
@@ -211,14 +240,13 @@ function woocommerce_voguepay_init() {
 					// check if the amount paid is equal to the order amount.
 					if($order_total != $amount_paid)
 					{
-			            //after payment hook
-		                do_action('tbz_voguepay_after_payment', $transaction);
 
 		                //Update the order status
 						$order->update_status('on-hold', '');
 
 						//Error Note
 						$message = 'Thank you for shopping with us.<br />Your payment transaction was successful, but the amount paid is not the same as the total order amount.<br />Your order is currently on-hold.<br />Kindly contact us for more information regarding your order and payment status.';
+						$message_type = 'notice';
 
 						//Add Customer Order Note
 	                    $order->add_order_note($message.'<br />Voguepay Transaction ID: '.$transaction_id, 1);
@@ -231,19 +259,9 @@ function woocommerce_voguepay_init() {
 
 						// Empty cart
 						$woocommerce->cart->empty_cart();
-
-						if ( function_exists( 'wc_add_notice' ) ) {
-							wc_add_notice( $message, 'error' );
-
-						} else { // WC < 2.1
-							$woocommerce->add_error( $message );
-							$woocommerce->set_messages();
-						}
 					}
 					else
 					{
-		                //after payment hook
-		                do_action('tbz_voguepay_after_payment', $transaction);
 
 		                if($order->status == 'processing'){
 		                    $order->add_order_note('Payment Via Voguepay<br />Transaction ID: '.$transaction_id);
@@ -258,14 +276,7 @@ function woocommerce_voguepay_init() {
 							WC()->cart->empty_cart();
 
 							$message = 'Thank you for shopping with us.<br />Your transaction was successful, payment was received.<br />Your order is currently being processed.';
-
-							if ( function_exists( 'wc_add_notice' ) ) {
-								wc_add_notice( $message, 'notice' );
-
-							} else { // WC < 2.1
-								$woocommerce->add_message( $message );
-								$woocommerce->set_messages();
-							}
+							$message_type = 'success';
 		                }
 		                else{
 
@@ -281,14 +292,8 @@ function woocommerce_voguepay_init() {
 			 					$order->add_order_note('Payment Received.<br />Your order is now complete.<br />Voguepay Transaction ID: '.$transaction_id, 1);
 
 								$message = 'Thank you for shopping with us.<br />Your transaction was successful, payment was received.<br />Your order is now complete.';
+								$message_type = 'success';
 
-								if ( function_exists( 'wc_add_notice' ) ) {
-									wc_add_notice( $message, 'success' );
-
-								} else { // WC < 2.1
-									$woocommerce->add_message( $message );
-									$woocommerce->set_messages();
-								}
 		                	}
 		                	else{
 
@@ -302,14 +307,7 @@ function woocommerce_voguepay_init() {
 			 					$order->add_order_note('Payment Received.<br />Your order is currently being processed.<br />We will be shipping your order to you soon.<br />Voguepay Transaction ID: '.$transaction_id, 1);
 
 								$message = 'Thank you for shopping with us.<br />Your transaction was successful, payment was received.<br />Your order is currently being processed.';
-
-								if ( function_exists( 'wc_add_notice' ) ) {
-									wc_add_notice( $message, 'success' );
-
-								} else { // WC < 2.1
-									$woocommerce->add_message( $message );
-									$woocommerce->set_messages();
-								}
+								$message_type = 'success';
 		                	}
 
 							// Reduce stock levels
@@ -319,53 +317,80 @@ function woocommerce_voguepay_init() {
 							WC()->cart->empty_cart();
 		                }
 	                }
+
+	                $voguepay_message = array(
+	                	'message'	=> $message,
+	                	'message_type' => $message_type
+	                );
+
+					update_post_meta( $order_id, '_tbz_voguepay_message', $voguepay_message );
+
+                    die( 'IPN Processed OK. Payment Successfully' );
 				}
 
 	            else
 	            {
 	            	$message = 	'Thank you for shopping with us. <br />However, the transaction wasn\'t successful, payment wasn\'t recieved.';
+					$message_type = 'error';
+
 					$transaction_id = $transaction['transaction_id'];
 
 					//Add Customer Order Note
-                    $order->add_order_note($message.'<br />Voguepay Transaction ID: '.$transaction_id, 1);
+                   	$order->add_order_note($message.'<br />Voguepay Transaction ID: '.$transaction_id, 1);
 
                     //Add Admin Order Note
-                    $order->add_order_note($message.'<br />Voguepay Transaction ID: '.$transaction_id);
+                  	$order->add_order_note($message.'<br />Voguepay Transaction ID: '.$transaction_id);
 
-					if ( function_exists( 'wc_add_notice' ) )
-					{
-						wc_add_notice( $message, 'error' );
 
-					}
-					else // WC < 2.1
-					{
-						$woocommerce->add_error( $message );
-						$woocommerce->set_messages();
-					}
+	                //Update the order status
+					$order->update_status('failed', '');
+
+	                $voguepay_message = array(
+	                	'message'	=> $message,
+	                	'message_type' => $message_type
+	                );
+
+					update_post_meta( $order_id, '_tbz_voguepay_message', $voguepay_message );
+
+                    die( 'IPN Processed OK. Payment Failed' );
 	            }
+
 			}
 			else
 			{
             	$message = 	'Thank you for shopping with us. <br />However, the transaction wasn\'t successful, payment wasn\'t recieved.';
+				$message_type = 'error';
 
-				if ( function_exists( 'wc_add_notice' ) )
-				{
-					wc_add_notice( $message, 'error' );
+                $voguepay_message = array(
+                	'message'	=> $message,
+                	'message_type' => $message_type
+                );
 
-				}
-				else // WC < 2.1
-				{
-					$woocommerce->add_error( $message );
-					$woocommerce->set_messages();
-				}
+				update_post_meta( $order_id, '_tbz_voguepay_message', $voguepay_message );
+
+                die( 'IPN Processed OK' );
 			}
 
-            $redirect_url = get_permalink( wc_get_page_id('myaccount') );
-
-            wp_safe_redirect( $redirect_url );
-            exit;
 		}
 	}
+
+	function tbz_voguepay_message(){
+		if( is_order_received_page() ){
+			$order_id = absint( get_query_var( 'order-received' ) );
+
+			$voguepay_message 	= get_post_meta( $order_id, '_tbz_voguepay_message', true );
+			$message 			= $voguepay_message['message'];
+			$message_type 		= $voguepay_message['message_type'];
+
+			delete_post_meta( $order_id, '_tbz_voguepay_message' );
+
+			if(! empty( $voguepay_message) ){
+				wc_add_notice( $message, $message_type );
+			}
+		}
+	}
+	add_action('wp', 'tbz_voguepay_message');
+
 
 	/**
  	* Add Voguepay Gateway to WC
