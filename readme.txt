@@ -4,7 +4,7 @@ Donate link: http://bosun.me/donate
 Tags: woocommerce, payment gateway, payment gateways, voguepay, interswitch, verve cards, tubiz plugins, verve, nigeria
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,9 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Changelog ==
 
+= 2.0.1 =
+* Fix: This fix the errors that display on the order received page if another payment method is selected
+
 = 2.0.0 =
 * 	New: Check if NGN is set as store currency. As Voguepay only process transactions in Naira
 *	Fix: Fine tuned the IPN (Instant Payment Notification). Immediately a payment transaction occurs a notification is sent by Voguepay to your site. This allows an order payment status to be updated realtime as soon as a payment transaction occurs and before a user is redirected back to the site.
@@ -158,8 +161,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Upgrade Notice ==
 
-= 2.0.0 =
-* This release fine tuned the IPN (Instant Payment Notification).
+= 2.0.1 =
+* This release fix the errors that display on the order received page if another payment method is selected. Kindly update to this version
 
 
 

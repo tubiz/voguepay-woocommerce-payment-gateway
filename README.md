@@ -9,7 +9,7 @@
 
 **Tested up to:** 3.9.1
 
-**Stable tag:** 2.0.0
+**Stable tag:** 2.0.1
 
 **License:** GPLv2 or later
 
@@ -133,6 +133,9 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 
 ## Changelog ##
+
+### 2.0.1 ###
+* 	Fix: This fix the errors that display on the order received page if another payment method is selected
 
 ### 2.0.0 ###
 * 	New: Check if NGN is set as store currency. As Voguepay only process transactions in Naira
