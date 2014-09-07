@@ -7,9 +7,9 @@
 
 **Requires at least:** 3.5
 
-**Tested up to:** 3.9.1
+**Tested up to:** 4.0
 
-**Stable tag:** 2.0.1
+**Stable tag:** 2.0.2
 
 **License:** GPLv2 or later
 
@@ -134,6 +134,10 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Changelog ##
 
+### 2.0.2 ###
+* 	New: Automatically redirect the customer to Voguepay to make payment
+*	New: Add support for Woocommerce 2.2
+
 ### 2.0.1 ###
 * 	Fix: This fix the errors that display on the order received page if another payment method is selected
 
@@ -166,8 +170,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Upgrade Notice ##
 
-### 2.0.0 ###
-* This release fine tuned the IPN (Instant Payment Notification).
+### 2.0.2 ###
+* Add support for Woocommerce 2.2 & automatically redirect the customer to Voguepay to make payment.
 
 
 

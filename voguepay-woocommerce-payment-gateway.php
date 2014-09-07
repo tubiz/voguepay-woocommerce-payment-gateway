@@ -3,7 +3,7 @@
 	Plugin Name: Voguepay WooCommerce Payment Gateway
 	Plugin URI: http://bosun.me/voguepay-woocommerce-payment-gateway
 	Description: Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocommerce store via Visa Cards, Mastercards, Verve Cards and eTranzact.
-	Version: 2.0.1
+	Version: 2.0.2
 	Author: Tunbosun Ayinla
 	Author URI: http://bosun.me/
 	License:           GPL-2.0+
@@ -179,12 +179,39 @@ function woocommerce_voguepay_init() {
 				$voguepay_args_array[] = '<input type="hidden" name="'.esc_attr( $key ).'" value="'.esc_attr( $value ).'" />';
 			}
 
-			return '<form action="'.esc_url( $voguepay_adr ).'" method="post" id="voguepay_payment_form" target="_top">
-					' . implode('', $voguepay_args_array) . '
-					<input type="submit" class="button-alt" id="submit_voguepay_payment_form" value="'.__('Make Payment', 'woocommerce').'" />
-					<a class="button cancel" href="'.esc_url( $order->get_cancel_order_url() ).'">'.__('Cancel order &amp; restore cart', 'woocommerce').'</a>
-				</form>';
+			wc_enqueue_js( '
+				$.blockUI({
+						message: "' . esc_js( __( 'Thank you for your order. We are now redirecting you to Voguepay to make payment.', 'woocommerce' ) ) . '",
+						baseZ: 99999,
+						overlayCSS:
+						{
+							background: "#fff",
+							opacity: 0.6
+						},
+						css: {
+							padding:        "20px",
+							zindex:         "9999999",
+							textAlign:      "center",
+							color:          "#555",
+							border:         "3px solid #aaa",
+							backgroundColor:"#fff",
+							cursor:         "wait",
+							lineHeight:		"24px",
+						}
+					});
+				jQuery("#submit_voguepay_payment_form").click();
+			' );
 
+			return '<form action="' . esc_url( $voguepay_adr ) . '" method="post" id="voguepay_payment_form" target="_top">
+					' . implode( '', $voguepay_args_array ) . '
+					<!-- Button Fallback -->
+					<div class="payment_buttons">
+						<input type="submit" class="button alt" id="submit_voguepay_payment_form" value="' . __( 'Pay via Voguepay', 'woocommerce' ) . '" /> <a class="button cancel" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'woocommerce' ) . '</a>
+					</div>
+					<script type="text/javascript">
+						jQuery(".payment_buttons").hide();
+					</script>
+				</form>';
 		}
 
 	    /**
@@ -203,7 +230,7 @@ function woocommerce_voguepay_init() {
 	     * Output for the order received page.
 	    **/
 		function receipt_page( $order ) {
-			echo '<p>'.__('Thank you for your order, please click the button below to make payment.', 'woocommerce').'</p>';
+			echo '<p>' . __( 'Thank you - your order is now pending payment. You should be automatically redirected to Voguepay to make payment.', 'woocommerce' ) . '</p>';
 			echo $this->generate_voguepay_form( $order );
 		}
 
@@ -323,6 +350,10 @@ function woocommerce_voguepay_init() {
 	                	'message_type' => $message_type
 	                );
 
+					if ( version_compare( WOOCOMMERCE_VERSION, "2.2" ) >= 0 ) {
+						add_post_meta( $order_id, '_transaction_id', $transaction_id, true );
+					}
+
 					update_post_meta( $order_id, '_tbz_voguepay_message', $voguepay_message );
 
                     die( 'IPN Processed OK. Payment Successfully' );
@@ -372,6 +403,17 @@ function woocommerce_voguepay_init() {
 			}
 
 		}
+
+
+		public function get_transaction_url( $order ) {
+			if( version_compare( WOOCOMMERCE_VERSION, "2.2" ) >= 0 ) {
+
+				$this->view_transaction_url = 'https://voguepay.com/?v_transaction_id=%s&type=xml';
+
+				return parent::get_transaction_url( $order );
+			}
+		}
+
 	}
 
 	function tbz_voguepay_message(){

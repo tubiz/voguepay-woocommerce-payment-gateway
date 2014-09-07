@@ -3,8 +3,8 @@ Contributors: tubiz
 Donate link: http://bosun.me/donate
 Tags: woocommerce, payment gateway, payment gateways, voguepay, interswitch, verve cards, tubiz plugins, verve, nigeria
 Requires at least: 3.5
-Tested up to: 3.9.1
-Stable tag: 2.0.1
+Tested up to: 4.0
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,10 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Changelog ==
 
+= 2.0.2 =
+* 	New: Automatically redirect the customer to Voguepay to make payment
+*	New: Add support for Woocommerce 2.2
+
 = 2.0.1 =
 * Fix: This fix the errors that display on the order received page if another payment method is selected
 
@@ -161,8 +165,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Upgrade Notice ==
 
-= 2.0.1 =
-* This release fix the errors that display on the order received page if another payment method is selected. Kindly update to this version
+= 2.0.2 =
+* Add support for Woocommerce 2.2 & automatically redirect the customer to Voguepay to make payment.
 
 
 
