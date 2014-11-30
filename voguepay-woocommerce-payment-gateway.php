@@ -3,7 +3,7 @@
 	Plugin Name: Voguepay WooCommerce Payment Gateway
 	Plugin URI: http://bosun.me/voguepay-woocommerce-payment-gateway
 	Description: Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocommerce store via Visa Cards, Mastercards, Verve Cards and eTranzact.
-	Version: 2.0.2
+	Version: 2.0.3
 	Author: Tunbosun Ayinla
 	Author URI: http://bosun.me/
 	License:           GPL-2.0+
@@ -65,7 +65,7 @@ function woocommerce_voguepay_init() {
 		public function is_valid_for_use(){
 
 			if( ! in_array( get_woocommerce_currency(), array('NGN') ) ){
-				$this->msg = 'Voguepay doesn\'t support your store currency, set it to Nigerian Naira &#8358; <a href="' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=wc_settings&tab=general">here</a>';
+				$this->msg = 'Voguepay doesn\'t support your store currency, set it to Nigerian Naira &#8358; <a href="' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=wc-settings&tab=general">here</a>';
 				return false;
 			}
 
@@ -141,6 +141,7 @@ function woocommerce_voguepay_init() {
 			$merchantID 	= $this->voguePayMerchantId;
 			$memo        	= "Payment for Order ID: $order_id on ". get_bloginfo('name');
             $notify_url  	= $this->notify_url;
+            $notify_url 	= 'http://postcatcher.in/catchers/54732efed811f60200001410';
 
 			$success_url  	= esc_url( $this->get_return_url( $order ) );
 
@@ -244,7 +245,10 @@ function woocommerce_voguepay_init() {
 			if(isset($_POST['transaction_id']))
 			{
 				$transaction_id = $_POST['transaction_id'];
-				$json = wp_remote_get( 'https://voguepay.com/?v_transaction_id='.$transaction_id.'&type=json');
+
+				$args = array( 'sslverify' => false );
+
+				$json = wp_remote_get( 'https://voguepay.com/?v_transaction_id='.$transaction_id.'&type=json', $args );
 
 				$transaction 	= json_decode($json['body'], true);
 				$transaction_id = $transaction['transaction_id'];
