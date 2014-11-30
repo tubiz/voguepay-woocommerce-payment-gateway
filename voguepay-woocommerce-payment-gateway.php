@@ -3,7 +3,7 @@
 	Plugin Name: Voguepay WooCommerce Payment Gateway
 	Plugin URI: http://bosun.me/voguepay-woocommerce-payment-gateway
 	Description: Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocommerce store via Visa Cards, Mastercards, Verve Cards and eTranzact.
-	Version: 2.0.3
+	Version: 2.0.4
 	Author: Tunbosun Ayinla
 	Author URI: http://bosun.me/
 	License:           GPL-2.0+
@@ -141,7 +141,6 @@ function woocommerce_voguepay_init() {
 			$merchantID 	= $this->voguePayMerchantId;
 			$memo        	= "Payment for Order ID: $order_id on ". get_bloginfo('name');
             $notify_url  	= $this->notify_url;
-            $notify_url 	= 'http://postcatcher.in/catchers/54732efed811f60200001410';
 
 			$success_url  	= esc_url( $this->get_return_url( $order ) );
 

@@ -4,7 +4,7 @@ Donate link: http://bosun.me/donate
 Tags: woocommerce, payment gateway, payment gateways, voguepay, interswitch, verve cards, tubiz plugins, verve, nigeria
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,9 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Changelog ==
 
+= 2.0.4 =
+* 	Fix: Fix an error on my part that sent the wrong notify url to Voguepay
+
 = 2.0.3 =
 * 	Fix: Disable SSL certificate check when calling Voguepay Notification/Order processing API
 
@@ -144,7 +147,6 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 *	New: Better support for digital product stores
 *	New: Set correct order status for orders that contains downloadable products
 *	Fix: Changed deprecated Woocommerce functions
-
 
 = 1.2.0 =
 *	Fix: Fixed the settings page link not working in Woocommerce 2.1
@@ -168,8 +170,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Upgrade Notice ==
 
-= 2.0.3 =
-* Kindly update to this version immediately, this is a very important update that fixes an order payment status from being updated once payment is made in the newest Voguepay global platform that was launched recently.
+= 2.0.4 =
+* This is an important update kindly update to this version rightaway.
 
 
 

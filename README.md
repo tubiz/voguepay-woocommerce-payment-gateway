@@ -9,7 +9,7 @@
 
 **Tested up to:** 4.0
 
-**Stable tag:** 2.0.3
+**Stable tag:** 2.0.4
 
 **License:** GPLv2 or later
 
@@ -134,6 +134,9 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Changelog ##
 
+### 2.0.4 ###
+* 	Fix: Fix an error on my part that sent the wrong notify url to Voguepay
+
 ### 2.0.3 ###
 * 	Fix: Disable SSL certificate check when calling Voguepay Notification/Order processing API
 
@@ -173,8 +176,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Upgrade Notice ##
 
-### 2.0.3 ###
-* Kindly update to this version immediately, this is a very important update that fixes an order payment status from being updated once payment is made in the newest Voguepay global platform that was launched recently.
+### 2.0.4 ###
+* 	This is an important update kindly update to this version rightaway.
 
 
 
