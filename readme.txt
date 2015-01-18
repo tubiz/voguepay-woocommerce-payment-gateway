@@ -3,8 +3,8 @@ Contributors: tubiz
 Donate link: http://bosun.me/donate
 Tags: woocommerce, payment gateway, payment gateways, voguepay, interswitch, verve cards, tubiz plugins, verve, nigeria
 Requires at least: 3.5
-Tested up to: 4.0
-Stable tag: 2.0.4
+Tested up to: 4.1
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocom
 
 == Description ==
 
-> Before you start accepting payment on your site, login to your [Voguepay Account](https://voguepay.com/) go to <strong>Account Preferences</strong> then <strong>API Settings</strong>, then set <strong>Enable notification API</strong> and <strong>Send Transaction ID to Success and Failure Return URL</strong> to <strong>Yes</strong>. Then click on <strong>Save Changes</strong> for the changes to be effected. <br /><strong>It is very important that you do this before you start accepting payment on your site.</strong>
+> Before you start accepting payment on your site, login to your [Voguepay Account](https://voguepay.com/) go to <strong>Settings</strong>, <strong>Account Settings</strong> then <strong>API/Payment Settings</strong>, then set <strong>Notification Method to All</strong> and <strong>Enable Notification API? to Yes</strong>. Then click on <strong>Save Changes</strong> for the changes to be effected. <br /><strong>It is very important that you do this before you start accepting payment on your site.</strong>
 
 
 This is a Voguepay payment gateway for Woocommerce.
@@ -45,7 +45,7 @@ This plugin is meant to be used by merchants in Nigeria.
 
 *   __Accept payment__ via Visa Cards, Mastercards, Verve Cards and eTranzact.
 * 	__Seamless integration__ into the WooCommerce checkout page.
-* 	__Add Naira__ currency symbol. To select it go to go to __WooCommerce > Settings__ from the left hand menu, then click __General__ from the top tab. From __Currency__ select Naira, then click on __Save Changes__ for your changes to be effected.
+* 	__Add Naira__ currency symbol. To select it go to go to __WooCommerce > Settings__ from the left hand menu, then click __General__ from the top tab. From __Currency__ select Naira, then click on __Save Changes__ for your changes to be effected.
 
 = Premium Addons =
 
@@ -85,13 +85,13 @@ To contribute to this plugin feel free to fork it on GitHub [Voguepay Woocommerc
 = Note: =
 If this is the first time you've installed a WordPress Plugin, you may need to enter the FTP login credential information. If you've installed a Plugin before, it will still have the login information. This information is available through your web server host.
 
-* Click "Proceed" to continue the installation. The resulting installation screen will list the installation as successful or note any problems during the install.
-* If successful, click "Activate Plugin" to activate it, or "Return to Plugin Installer" for further actions.
+* Click "Proceed" to continue the installation. The resulting installation screen will list the installation as successful or note any problems during the install.
+* If successful, click "Activate Plugin" to activate it, or "Return to Plugin Installer" for further actions.
 
 = Manual Installation =
 1. 	Download the plugin zip file
 2. 	Login to your WordPress Admin. Click on "Plugins > Add New" from the left hand menu.
-3.  Click on the "Upload" option, then click "Choose File" to select the zip file from your computer. Once selected, press "OK" and press the "Install Now" button.
+3.  Click on the "Upload" option, then click "Choose File" to select the zip file from your computer. Once selected, press "OK" and press the "Install Now" button.
 4.  Activate the plugin.
 5. 	Open the settings page for WooCommerce and click the "Payment Gateways," tab.
 6. 	Click on the sub tab for "Voguepay Payment Gateway".
@@ -100,7 +100,7 @@ If this is the first time you've installed a WordPress Plugin, you may need to e
 
 
 = Configure the plugin =
-To configure the plugin, go to __WooCommerce > Settings__ from the left hand menu, then click "Payment Gateways" from the top tab. You should see __"Voguepay Payment Gateway"__ as an option at the top of the screen. Click on it to configure the payment gateway.
+To configure the plugin, go to __WooCommerce > Settings__ from the left hand menu, then click "Payment Gateways" from the top tab. You should see __"Voguepay Payment Gateway"__ as an option at the top of the screen. Click on it to configure the payment gateway.
 
 __*You can select the radio button next to the Voguepay Payment Gateway from the list of payment gateways available to make it the default gateway.*__
 
@@ -125,6 +125,11 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 
 == Changelog ==
+
+= 3.0.0 =
+*	New: Add support for Voguepay Multiple Stores
+*	New: Added verification check to ensure the payment is sent to the right Voguepay account.
+* 	Fix: Change payment icon
 
 = 2.0.4 =
 * 	Fix: Fix an error on my part that sent the wrong notify url to Voguepay
@@ -170,8 +175,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Upgrade Notice ==
 
-= 2.0.4 =
-* This is an important update kindly update to this version rightaway.
+= 3.0.0 =
+* 	Add support for multiple stores, verification check to ensure payment is sent to the right Voguepay acocunt and updated payment icon
 
 
 
