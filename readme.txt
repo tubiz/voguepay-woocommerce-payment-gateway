@@ -3,8 +3,8 @@ Contributors: tubiz
 Donate link: http://bosun.me/donate
 Tags: woocommerce, payment gateway, payment gateways, voguepay, interswitch, verve cards, tubiz plugins, verve, nigeria
 Requires at least: 3.5
-Tested up to: 4.1
-Stable tag: 3.0.0
+Tested up to: 4.2
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,10 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Changelog ==
 
+= 3.1.0 =
+*	Fix: Use wc_get_order instead or declaring a new WC_Order class
+*	Fix: Removed all global $woocommerce variable
+
 = 3.0.0 =
 *	New: Add support for Voguepay Multiple Stores
 *	New: Added verification check to ensure the payment is sent to the right Voguepay account.
@@ -175,8 +179,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 == Upgrade Notice ==
 
-= 3.0.0 =
-* 	Add support for multiple stores, verification check to ensure payment is sent to the right Voguepay acocunt and updated payment icon
+= 3.1.0 =
+* Make plugin compatible with latest WordPress version
 
 
 
