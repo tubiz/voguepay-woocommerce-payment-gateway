@@ -9,7 +9,7 @@
 
 **Tested up to:** 4.2
 
-**Stable tag:** 3.1.0
+**Stable tag:** 3.2.0
 
 **License:** GPLv2 or later
 
@@ -134,6 +134,12 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Changelog ##
 
+### 3.2.0 ###
+*	New: Send customers to Voguepay immediately the "Make Payment" button is clicked.
+* 	Refactor: Reduce the number of pages displayed before customers are sent to Voguepay by one. From the checkout page, customers are now redirected to Voguepay to make payment.
+*	Refactor: Remove process_payment function, not needed anymore.
+*	Fix: Customers not automatically redirected to Voguepay to make payment on some sites.
+
 ### 3.1.0 ###
 *	Fix: Use wc_get_order instead or declaring a new WC_Order class
 *	Fix: Removed all global $woocommerce variable
@@ -185,8 +191,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Upgrade Notice ##
 
-### 3.1.0 ###
-* Make plugin compatible with latest WordPress version
+### 3.2.0 ###
+* Fix an issue with automatic redirection to Voguepay not working on some sites. Customers are now redirected to Voguepay from the Checkout page once the "Make Payment" button is clicked.
 
 
 

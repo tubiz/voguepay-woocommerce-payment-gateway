@@ -3,7 +3,7 @@
 	Plugin Name: Voguepay WooCommerce Payment Gateway
 	Plugin URI: http://bosun.me/voguepay-woocommerce-payment-gateway
 	Description: Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocommerce store via Visa Cards, Mastercards, Verve Cards and eTranzact.
-	Version: 3.1.0
+	Version: 3.2.0
 	Author: Tunbosun Ayinla
 	Author URI: http://bosun.me/
 	License:           GPL-2.0+
@@ -30,6 +30,7 @@ function tbz_wc_voguepay_init() {
 			$this->id 					= 'tbz_voguepay_gateway';
     		$this->icon 				= apply_filters('woocommerce_vogueway_icon', plugins_url( 'assets/pay-via-voguepay.png' , __FILE__ ) );
 			$this->has_fields 			= false;
+			$this->order_button_text 	= 'Make Payment';
         	$this->payment_url 			= 'https://voguepay.com/pay/';
 			$this->notify_url        	= WC()->api_request_url( 'WC_Tbz_Voguepay_Gateway' );
         	$this->method_title     	= 'VoguePay Payment Gateway';
@@ -50,7 +51,6 @@ function tbz_wc_voguepay_init() {
 			$this->storeId 					= $this->get_option( 'storeId' );
 
 			//Actions
-			add_action('woocommerce_receipt_tbz_voguepay_gateway', array($this, 'receipt_page'));
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
 			// Payment listener/API hook
@@ -137,7 +137,7 @@ function tbz_wc_voguepay_init() {
 		}
 
 		/**
-		 * Get Voguepay Args for passing to Voguepay
+		 * Get voguepay args
 		**/
 		function get_voguepay_args( $order ) {
 
@@ -171,77 +171,62 @@ function tbz_wc_voguepay_init() {
 		}
 
 	    /**
-		 * Generate the VoguePay Payment button link
+	     * Process the payment and return the result
 	    **/
-	    function generate_voguepay_form( $order_id ) {
+		function process_payment( $order_id ) {
+
+			$response = $this->get_payment_link( $order_id );
+
+			if( 'success' == $response['result'] ) {
+		        return array(
+		        	'result' 	=> 'success',
+					'redirect'	=> $response['redirect']
+		        );
+			}
+			else {
+				wc_add_notice( 'Unable to connect to the payment gateway, please try again.', 'error' );
+
+		        return array(
+		        	'result' 	=> 'fail',
+					'redirect'	=> ''
+		        );
+			}
+		}
+
+	    /**
+	     * Get Voguepay payment link
+	    **/
+		function get_payment_link( $order_id ){
 
 			$order = wc_get_order( $order_id );
 
 			$voguepay_args = $this->get_voguepay_args( $order );
 
-			$voguepay_args_array = array();
+        	$voguepay_redirect  = 'https://voguepay.com/?p=linkToken&';
+		    $voguepay_redirect .= http_build_query( $voguepay_args );
 
-			foreach ($voguepay_args as $key => $value) {
-				$voguepay_args_array[] = '<input type="hidden" name="'.esc_attr( $key ).'" value="'.esc_attr( $value ).'" />';
-			}
+		    $args = array(
+		        'timeout'   => 60,
+		        'sslverify' => false
+		    );
 
-			wc_enqueue_js( '
-				$.blockUI({
-						message: "' . esc_js( __( 'Thank you for your order. We are now redirecting you to the gateway to make payment.', 'woocommerce' ) ) . '",
-						baseZ: 99999,
-						overlayCSS:
-						{
-							background: "#fff",
-							opacity: 0.6
-						},
-						css: {
-							padding:        "20px",
-							zindex:         "9999999",
-							textAlign:      "center",
-							color:          "#555",
-							border:         "3px solid #aaa",
-							backgroundColor:"#fff",
-							cursor:         "wait",
-							lineHeight:		"24px",
-						}
-					});
-				jQuery("#submit_voguepay_payment_form").click();
-			' );
+	    	$voguepay_redirect = wp_remote_get( $voguepay_redirect, $args );
 
-			return '<form action="' . $this->payment_url . '" method="post" id="voguepay_payment_form" target="_top">
-					' . implode( '', $voguepay_args_array ) . '
-					<!-- Button Fallback -->
-					<div class="payment_buttons">
-						<input type="submit" class="button alt" id="submit_voguepay_payment_form" value="Make Payment" /> <a class="button cancel" href="' . esc_url( $order->get_cancel_order_url() ) . '">Cancel order &amp; restore cart</a>
-					</div>
-					<script type="text/javascript">
-						jQuery(".payment_buttons").hide();
-					</script>
-				</form>';
+		    if ( is_wp_error($voguepay_redirect) || wp_remote_retrieve_response_code($voguepay_redirect) != 200 || $voguepay_redirect['body']  == -14 || $voguepay_redirect['body']  == -3 ) {
+
+		        $response = array(
+		        	'result'	=> 'fail',
+		        	'redirect'	=> ''
+		        );
+		    }
+		    else {
+		        $response = array(
+		        	'result'	=> 'success',
+		        	'redirect'	=> $voguepay_redirect['body']
+		        );
+		    }
+		    return $response;
 		}
-
-	    /**
-	     * Process the payment and return the result
-	    **/
-		function process_payment( $order_id ) {
-
-			$order = wc_get_order( $order_id );
-
-	        return array(
-	        	'result' 	=> 'success',
-				'redirect'	=> $order->get_checkout_payment_url( true )
-	        );
-		}
-
-	    /**
-	     * Output for the order received page.
-	    **/
-		function receipt_page( $order ) {
-			echo '<p>Thank you - your order is now pending payment. You should be automatically redirected to the gateway to make payment</p>';
-
-			echo $this->generate_voguepay_form( $order );
-		}
-
 
 		/**
 		 * Verify a successful Payment!
