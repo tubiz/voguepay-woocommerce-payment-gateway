@@ -430,7 +430,7 @@ function tbz_wc_voguepay_init() {
 
 	function tbz_wc_voguepay_message() {
 
-		if( ! empty( get_query_var( 'order-received' ) ) ){
+		if( get_query_var( 'order-received' ) ){
 
 			$order_id 		= absint( get_query_var( 'order-received' ) );
 			$order 			= wc_get_order( $order_id );
