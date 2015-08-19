@@ -7,9 +7,9 @@
 
 **Requires at least:** 3.5
 
-**Tested up to:** 4.2
+**Tested up to:** 4.3
 
-**Stable tag:** 3.2.0
+**Stable tag:** 3.2.1
 
 **License:** GPLv2 or later
 
@@ -134,6 +134,9 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Changelog ##
 
+### 3.2.1 ###
+*	Fix: PHP notice error
+
 ### 3.2.0 ###
 *	New: Send customers to Voguepay immediately the "Make Payment" button is clicked.
 * 	Refactor: Reduce the number of pages displayed before customers are sent to Voguepay by one. From the checkout page, customers are now redirected to Voguepay to make payment.
@@ -191,8 +194,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Upgrade Notice ##
 
-### 3.2.0 ###
-* Fix an issue with automatic redirection to Voguepay not working on some sites. Customers are now redirected to Voguepay from the Checkout page once the "Make Payment" button is clicked.
+### 3.2.1 ###
+* Fix PHP notice error
 
 
 
