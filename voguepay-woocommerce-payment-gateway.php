@@ -3,7 +3,7 @@
 	Plugin Name: Voguepay WooCommerce Payment Gateway
 	Plugin URI: http://bosun.me/voguepay-woocommerce-payment-gateway
 	Description: Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocommerce store via Visa Cards, Mastercards, Verve Cards and eTranzact.
-	Version: 3.2.0
+	Version: 3.2.1
 	Author: Tunbosun Ayinla
 	Author URI: http://bosun.me/
 	License:           GPL-2.0+
@@ -430,24 +430,29 @@ function tbz_wc_voguepay_init() {
 
 	function tbz_wc_voguepay_message() {
 
-		$order_id 		= absint( get_query_var( 'order-received' ) );
-		$order 			= wc_get_order( $order_id );
-		$payment_method = $order->payment_method;
+		if( ! empty( get_query_var( 'order-received' ) ) ){
 
-		if( is_order_received_page() &&  ( 'tbz_voguepay_gateway' == $payment_method ) ){
+			$order_id 		= absint( get_query_var( 'order-received' ) );
+			$order 			= wc_get_order( $order_id );
+			$payment_method = $order->payment_method;
 
-			$voguepay_message 	= get_post_meta( $order_id, '_tbz_voguepay_message', true );
+			if( is_order_received_page() &&  ( 'tbz_voguepay_gateway' == $payment_method ) ){
 
-			if( ! empty( $voguepay_message ) ){
+				$voguepay_message 	= get_post_meta( $order_id, '_tbz_voguepay_message', true );
 
-				$message 			= $voguepay_message['message'];
-				$message_type 		= $voguepay_message['message_type'];
+				if( ! empty( $voguepay_message ) ){
 
-				delete_post_meta( $order_id, '_tbz_voguepay_message' );
+					$message 			= $voguepay_message['message'];
+					$message_type 		= $voguepay_message['message_type'];
 
-				wc_add_notice( $message, $message_type );
+					delete_post_meta( $order_id, '_tbz_voguepay_message' );
+
+					wc_add_notice( $message, $message_type );
+				}
 			}
+
 		}
+
 	}
 	add_action( 'wp', 'tbz_wc_voguepay_message' );
 
