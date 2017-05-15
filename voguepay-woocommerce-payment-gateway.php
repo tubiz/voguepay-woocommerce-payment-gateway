@@ -50,7 +50,7 @@ function tbz_wc_voguepay_init() {
 			$this->voguePayMerchantId 		= $this->get_option( 'voguePayMerchantId' );
 			$this->storeId 					= $this->get_option( 'storeId' );
 			
-			//add developer code
+			//add developer code as one of the option
 			$this->developerCode                           =$this->get_option( 'developerCode');
 			
 
