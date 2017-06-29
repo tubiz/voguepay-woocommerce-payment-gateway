@@ -1,15 +1,15 @@
 # Voguepay WooCommerce Payment Gateway #
 **Contributors:** tubiz
 
-**Donate link:** http://bosun.me/donate
+**Donate link:** https://bosun.me/donate
 
 **Tags:** woocommerce, payment gateway, payment gateways, voguepay, interswitch, verve cards, tubiz plugins, verve, nigeria
 
-**Requires at least:** 4.1
+**Requires at least:** 4.4
 
-**Tested up to:** 4.6
+**Tested up to:** 4.8
 
-**Stable tag:** 4.0.0
+**Stable tag:** 4.1.0
 
 **License:** GPLv2 or later
 
@@ -133,6 +133,9 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Changelog ##
 
+### 4.1.0 ###
+*	Fix: Deprecated WooCommerce order function
+
 ### 4.0.0 ###
 *	New: Add support for USD currency
 *	Fix: Change payment icon
@@ -181,14 +184,12 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 *	Fix: Fixed the settings page link not working in WooCommerce 2.1
 *	Fix: Failed transaction displaying an error message
 
-
 ### 1.1.0 ###
 *	New: Added support for WooCommerce 2.1
 * 	New: Only load the functions (tbz_add_my_currency & tbz_add_my_currency_symbol) which add the Naira currency and symbol on WordPress sites running WooCommerce version that are less that 2.1, as it has been added to WooCommerce from version 2.1.
 * 	New: Added verification checks to ensure the right amount is paid by the customer
 *	Fix: Fixed Naira currency not displaying properly.
 *	Fix: Check if tbz_add_my_currency & tbz_add_my_currency_symbol functions exist before declaring it.
-
 
 ### 1.0.0 ###
 *   First release
@@ -199,8 +200,8 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ## Upgrade Notice ##
 
-### 4.0.0 ###
-* Add support for USD currency
+### 4.1.0 ###
+*	Fix: Deprecated WooCommerce order function
 
 
 
@@ -208,29 +209,27 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ###1. WooCommerce payment gateway setting page
 ###
-![Screenshot 1](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-1.png)
+![Screenshot 1](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-1.png)
 
 
 ###2. Voguepay Wooocommerce Payment Gateway Setting Page
 ###
-![Screenshot 2](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-2.png)
+![Screenshot 2](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-2.png)
 
 
 ###3. Voguepay Wooocommerce Payment Gateway method on the checkout page
 ###
-![Screenshot 3](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-3.png)
+![Screenshot 3](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-3.png)
 
 
 ###4. Successful Payment Transaction Message
 ###
-![Screenshot 4](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-4.png)
+![Screenshot 4](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-4.png)
 
 
 ###5. Failed Payment Transaction Declined Message
 ###
-![Screenshot 5](https://dl.dropboxusercontent.com/u/28591673/voguepay-woocommerce-payment-gateway/screenshot-5.png)
-
-
+![Screenshot 5](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-5.png)
 
 
 ## Contributors ##

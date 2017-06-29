@@ -1,11 +1,11 @@
 <?php
 /*
 	Plugin Name: Voguepay WooCommerce Payment Gateway
-	Plugin URI: http://bosun.me/voguepay-woocommerce-payment-gateway
+	Plugin URI: https://bosun.me/voguepay-woocommerce-payment-gateway
 	Description: Voguepay Woocommerce Payment Gateway allows you to accept payment on your Woocommerce store via Visa Card, MasterCard and Verve Card.
-	Version: 4.0.0
+	Version: 4.1.0
 	Author: Tunbosun Ayinla
-	Author URI: http://bosun.me/
+	Author URI: https://bosun.me/
 	License:           GPL-2.0+
  	License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  	GitHub Plugin URI: https://github.com/tubiz/voguepay-woocommerce-payment-gateway
@@ -36,13 +36,11 @@ function tbz_wc_voguepay_init() {
         	$this->method_title     	= 'VoguePay';
         	$this->method_description  	= 'MasterCard, Verve Card and Visa Card accepted';
 
-
 			// Load the form fields.
 			$this->init_form_fields();
 
 			// Load the settings.
 			$this->init_settings();
-
 
 			// Define user set variables
 			$this->title 					= $this->get_option( 'title' );
@@ -61,6 +59,7 @@ function tbz_wc_voguepay_init() {
 				$this->enabled = false;
 			}
 		}
+
 
 		public function is_valid_for_use() {
 
@@ -115,7 +114,7 @@ function tbz_wc_voguepay_init() {
 	    /**
 	     * Initialise Gateway Settings Form Fields
 	    **/
-		function init_form_fields(){
+		public function init_form_fields() {
 			$this->form_fields = array(
 				'enabled' => array(
 					'title' 		=> 'Enable/Disable',
@@ -155,12 +154,13 @@ function tbz_wc_voguepay_init() {
 			);
 		}
 
+
 		/**
 		 * Get voguepay args
 		**/
-		function get_voguepay_args( $order ) {
+		public function get_voguepay_args( $order ) {
 
-			$order_id 		= $order->id;
+            $order_id 		= method_exists( $order, 'get_id' ) ? $order->get_id() : $order->id;
 
 			$order_total	= $order->get_total();
 			$merchantID 	= $this->voguePayMerchantId;
@@ -190,33 +190,38 @@ function tbz_wc_voguepay_init() {
 			return $voguepay_args;
 		}
 
+
 	    /**
 	     * Process the payment and return the result
 	    **/
-		function process_payment( $order_id ) {
+		public function process_payment( $order_id ) {
 
 			$response = $this->get_payment_link( $order_id );
 
 			if( 'success' == $response['result'] ) {
+
 		        return array(
 		        	'result' 	=> 'success',
 					'redirect'	=> $response['redirect']
 		        );
-			}
-			else {
+
+			} else {
+
 				wc_add_notice( 'Unable to connect to the payment gateway, please try again.', 'error' );
 
 		        return array(
 		        	'result' 	=> 'fail',
 					'redirect'	=> ''
 		        );
+
 			}
 		}
+
 
 	    /**
 	     * Get Voguepay payment link
 	    **/
-		function get_payment_link( $order_id ){
+		public function get_payment_link( $order_id ) {
 
 			$order = wc_get_order( $order_id );
 
@@ -234,25 +239,29 @@ function tbz_wc_voguepay_init() {
 	    	$valid_url = strpos( $request['body'], 'https://voguepay.com/pay' );
 
           	if ( ! is_wp_error( $request ) && 200 == wp_remote_retrieve_response_code( $request ) && $valid_url !== false ) {
+
 		        $response = array(
 		        	'result'	=> 'success',
 		        	'redirect'	=> $request['body']
 		        );
-          	}
-          	else {
+
+          	} else {
+
 		        $response = array(
 		        	'result'	=> 'fail',
 		        	'redirect'	=> ''
 		        );
+
           	}
 
 		    return $response;
 		}
 
+
 		/**
 		 * Verify a successful Payment!
 		**/
-		function check_voguepay_response( $posted ) {
+		public function check_voguepay_response() {
 
 			if( isset( $_POST['transaction_id'] ) ) {
 
@@ -261,10 +270,13 @@ function tbz_wc_voguepay_init() {
 				$args = array( 'timeout' => 60 );
 
 				if( 'demo' == $this->voguePayMerchantId ) {
+
 					$json = wp_remote_get( 'https://voguepay.com/?v_transaction_id='.$transaction_id.'&type=json&demo=true', $args );
-				}
-				else {
+
+				} else {
+
 					$json = wp_remote_get( 'https://voguepay.com/?v_transaction_id='.$transaction_id.'&type=json', $args );
+
 				}
 
 				$transaction 	= json_decode( $json['body'], true );
@@ -302,8 +314,7 @@ function tbz_wc_voguepay_init() {
 						// Empty cart
 						wc_empty_cart();
 
-					}
-					else {
+					} else {
 
 						// check if the amount paid is equal to the order amount.
 						if( $amount_paid < $order_total ) {
@@ -325,8 +336,8 @@ function tbz_wc_voguepay_init() {
 
 							// Empty cart
 							wc_empty_cart();
-						}
-						else {
+
+						} else {
 
             				$order->payment_complete( $transaction_id );
 
@@ -342,15 +353,15 @@ function tbz_wc_voguepay_init() {
 					}
 
 	                $voguepay_message = array(
-	                	'message'	=> $message,
-	                	'message_type' => $message_type
+	                	'message'		=> $message,
+	                	'message_type' 	=> $message_type
 	                );
 
 					update_post_meta( $order_id, '_tbz_voguepay_message', $voguepay_message );
 
                     die( 'IPN Processed OK. Payment Successfully' );
-				}
-	            else {
+
+				} else {
 
 					$message = 'Payment failed.';
 					$message_type = 'error';
@@ -364,8 +375,8 @@ function tbz_wc_voguepay_init() {
 					$order->update_status( 'failed', '' );
 
 	                $voguepay_message = array(
-	                	'message'	=> $message,
-	                	'message_type' => $message_type
+	                	'message'		=> $message,
+	                	'message_type' 	=> $message_type
 	                );
 
 					update_post_meta( $order_id, '_tbz_voguepay_message', $voguepay_message );
@@ -373,26 +384,28 @@ function tbz_wc_voguepay_init() {
 					add_post_meta( $order_id, '_transaction_id', $transaction_id, true );
 
                     die( 'IPN Processed OK. Payment Failed' );
+
 	            }
 
-			}
-			else {
+			} else {
 
             	$message = 	'Thank you for shopping with us. <br />However, the transaction wasn\'t successful, payment wasn\'t received.';
 				$message_type = 'error';
 
                 $voguepay_message = array(
-                	'message'	=> $message,
-                	'message_type' => $message_type
+                	'message'		=> $message,
+                	'message_type' 	=> $message_type
                 );
 
 				update_post_meta( $order_id, '_tbz_voguepay_message', $voguepay_message );
 
                 die( 'IPN Processed OK' );
+
 			}
 		}
 
 	}
+
 
 	function tbz_wc_voguepay_message() {
 
@@ -400,13 +413,13 @@ function tbz_wc_voguepay_init() {
 
 			$order_id 		= absint( get_query_var( 'order-received' ) );
 			$order 			= wc_get_order( $order_id );
-			$payment_method = $order->payment_method;
+			$payment_method = method_exists( $order, 'get_payment_method' ) ? $order->get_payment_method() : $order->payment_method;
 
-			if( is_order_received_page() &&  ( 'tbz_voguepay_gateway' == $payment_method ) ){
+			if( is_order_received_page() &&  ( 'tbz_voguepay_gateway' == $payment_method ) ) {
 
 				$voguepay_message 	= get_post_meta( $order_id, '_tbz_voguepay_message', true );
 
-				if( ! empty( $voguepay_message ) ){
+				if( ! empty( $voguepay_message ) ) {
 
 					$message 			= $voguepay_message['message'];
 					$message_type 		= $voguepay_message['message_type'];
@@ -414,6 +427,7 @@ function tbz_wc_voguepay_init() {
 					delete_post_meta( $order_id, '_tbz_voguepay_message' );
 
 					wc_add_notice( $message, $message_type );
+
 				}
 			}
 
@@ -444,7 +458,7 @@ function tbz_wc_voguepay_init() {
 		**/
 		add_filter( 'woocommerce_currencies', 'tbz_add_my_currency' );
 
-		if( ! function_exists( 'tbz_add_my_currency' )){
+		if( ! function_exists( 'tbz_add_my_currency' ) ) {
 			function tbz_add_my_currency( $currencies ) {
 			     $currencies['NGN'] = __( 'Naira', 'woocommerce' );
 			     return $currencies;
@@ -456,7 +470,7 @@ function tbz_wc_voguepay_init() {
 		**/
 		add_filter('woocommerce_currency_symbol', 'tbz_add_my_currency_symbol', 10, 2);
 
-		if( ! function_exists( 'tbz_add_my_currency_symbol' ) ){
+		if( ! function_exists( 'tbz_add_my_currency_symbol' ) ) {
 			function tbz_add_my_currency_symbol( $currency_symbol, $currency ) {
 			     switch( $currency ) {
 			          case 'NGN': $currency_symbol = '&#8358; '; break;
@@ -468,44 +482,20 @@ function tbz_wc_voguepay_init() {
 
 
 	/**
-	* Add Settings link to the plugin entry in the plugins menu for WC below 2.1
+	* Add Settings link to the plugin entry in the plugins menu
 	**/
-	if ( version_compare( WOOCOMMERCE_VERSION, "2.1" ) <= 0 ) {
+	function tbz_voguepay_plugin_action_links( $links, $file ) {
+	    static $this_plugin;
 
-		add_filter('plugin_action_links', 'tbz_voguepay_plugin_action_links', 10, 2);
+	    if ( ! $this_plugin ) {
+	        $this_plugin = plugin_basename( __FILE__ );
+	    }
 
-		function tbz_voguepay_plugin_action_links($links, $file) {
-		    static $this_plugin;
-
-		    if (!$this_plugin) {
-		        $this_plugin = plugin_basename(__FILE__);
-		    }
-
-		    if ($file == $this_plugin) {
-	        $settings_link = '<a href="' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_Tbz_Voguepay_Gateway">Settings</a>';
-		        array_unshift($links, $settings_link);
-		    }
-		    return $links;
-		}
+	    if ($file == $this_plugin) {
+	        $settings_link = '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=wc-settings&tab=checkout&section=wc_tbz_voguepay_gateway">Settings</a>';
+	        array_unshift( $links, $settings_link );
+	    }
+	    return $links;
 	}
-	/**
-	* Add Settings link to the plugin entry in the plugins menu for WC 2.1 and above
-	**/
-	else{
-		add_filter('plugin_action_links', 'tbz_voguepay_plugin_action_links', 10, 2);
-
-		function tbz_voguepay_plugin_action_links($links, $file) {
-		    static $this_plugin;
-
-		    if (!$this_plugin) {
-		        $this_plugin = plugin_basename(__FILE__);
-		    }
-
-		    if ($file == $this_plugin) {
-		        $settings_link = '<a href="' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=wc-settings&tab=checkout&section=wc_tbz_voguepay_gateway">Settings</a>';
-		        array_unshift($links, $settings_link);
-		    }
-		    return $links;
-		}
-	}
+	add_filter( 'plugin_action_links', 'tbz_voguepay_plugin_action_links', 10, 2 );
 }
