@@ -209,27 +209,27 @@ __*You can select the radio button next to the Voguepay Payment Gateway from the
 
 ###1. WooCommerce payment gateway setting page
 ###
-![Screenshot 1](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-1.png)
+![Screenshot 1](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/screenshot-1.png)
 
 
 ###2. Voguepay Wooocommerce Payment Gateway Setting Page
 ###
-![Screenshot 2](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-2.png)
+![Screenshot 2](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/screenshot-2.png)
 
 
 ###3. Voguepay Wooocommerce Payment Gateway method on the checkout page
 ###
-![Screenshot 3](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-3.png)
+![Screenshot 3](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/screenshot-3.png)
 
 
 ###4. Successful Payment Transaction Message
 ###
-![Screenshot 4](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-4.png)
+![Screenshot 4](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/screenshot-4.png)
 
 
 ###5. Failed Payment Transaction Declined Message
 ###
-![Screenshot 5](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/images/screenshot-5.png)
+![Screenshot 5](https://github.com/tubiz/voguepay-woocommerce-payment-gateway/blob/master/assets/screenshot-5.png)
 
 
 ## Contributors ##
