@@ -47,6 +47,7 @@ function tbz_wc_voguepay_init() {
 			$this->description 				= $this->get_option( 'description' );
 			$this->voguePayMerchantId 		= $this->get_option( 'voguePayMerchantId' );
 			$this->storeId 					= $this->get_option( 'storeId' );
+			$this->dev_code 				= $this->get_option( 'dev_code' );
 
 			//Actions
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -148,7 +149,14 @@ function tbz_wc_voguepay_init() {
 					'title' 		=> 'Store ID',
 					'type' 			=> 'text',
 					'description' 	=> 'Enter Your Store ID here, if you have created a unique store within your Voguepay account.' ,
-					'default' 		=> '',
+					'default' 		=> '57',
+        			'desc_tip'      => true
+				),
+				'dev_code' => array(
+					'title' 		=> 'Developer Code',
+					'type' 			=> 'text',
+					'description' 	=> 'Enter Developer Code' ,
+					'default' 		=> '59567e590bf0b',
         			'desc_tip'      => true
 				),
 			);
@@ -173,6 +181,8 @@ function tbz_wc_voguepay_init() {
 
 			$store_id 		= $this->storeId  ? $this->storeId : '';
 
+			$dev_code 		= $this->dev_code   ? $this->dev_code  : '';
+
 			// voguepay Args
 			$voguepay_args = array(
 				'v_merchant_id' 		=> $merchantID,
@@ -183,7 +193,8 @@ function tbz_wc_voguepay_init() {
 				'notify_url'			=> $notify_url,
 				'success_url'			=> $success_url,
 				'fail_url'				=> $fail_url,
-				'store_id'				=> $store_id
+				'store_id'				=> $store_id,
+				'dev_code'				=> $dev_code	
 			);
 
 			$voguepay_args = apply_filters( 'woocommerce_voguepay_args', $voguepay_args );
