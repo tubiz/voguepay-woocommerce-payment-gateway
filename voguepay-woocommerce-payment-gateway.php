@@ -48,6 +48,8 @@ function tbz_wc_voguepay_init() {
 			$this->voguePayMerchantId 		= $this->get_option( 'voguePayMerchantId' );
 			$this->storeId 					= $this->get_option( 'storeId' );
 
+			$this->developerCode        =$this->get_option( 'developerCode');
+
 			//Actions
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
@@ -151,6 +153,17 @@ function tbz_wc_voguepay_init() {
 					'default' 		=> '',
         			'desc_tip'      => true
 				),
+
+				//add developer code as an option
+				
+				'developerCode' => array(
+					
+					'title'              => 'Developer Code',
+					'type'               => 'text',
+					'description'       => 'Enter your Developer code to get 30% of the transaction on your website. you can login to your voguepay account to get your developer code.',
+					'default'   =>   '',
+					'desc_tip'      => true
+				        ),
 			);
 		}
 
@@ -173,6 +186,10 @@ function tbz_wc_voguepay_init() {
 
 			$store_id 		= $this->storeId  ? $this->storeId : '';
 
+			//set developer code as one of the form input
+			
+			$developer_code=$this->developerCode ? $this->developerCode : '';
+
 			// voguepay Args
 			$voguepay_args = array(
 				'v_merchant_id' 		=> $merchantID,
@@ -183,7 +200,8 @@ function tbz_wc_voguepay_init() {
 				'notify_url'			=> $notify_url,
 				'success_url'			=> $success_url,
 				'fail_url'				=> $fail_url,
-				'store_id'				=> $store_id
+				'store_id'				=> $store_id,
+				'developer_code'        => $developer_code
 			);
 
 			$voguepay_args = apply_filters( 'woocommerce_voguepay_args', $voguepay_args );
